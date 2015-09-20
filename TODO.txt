@@ -1,0 +1,5 @@
+TODO:
+use cmake
+add cons/car/cdr buildin function.
+investigate how to utilize mpc more.
+quote keyword.
