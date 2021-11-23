@@ -4,7 +4,7 @@ if_cond::if_cond(const expr &c, const expr &i, const expr &e) : _cond(c), _if(i)
 {
 }
 
-expr if_cond::eval(const shared_ptr<environ> &env) const
+expr if_cond::eval(const std::shared_ptr<environ> &env) const
 {
     expr e = _cond.eval(env);
     if (e.failed()) {
@@ -14,9 +14,9 @@ expr if_cond::eval(const shared_ptr<environ> &env) const
     return e.to_boolean() ? _if.eval(env) : _else.eval(env);
 }
 
-string if_cond::to_string() const
+std::string if_cond::to_string() const
 {
-    string s = "if " + _cond.to_string() + " " + _if.to_string();
+    std::string s = "if " + _cond.to_string() + " " + _if.to_string();
     s += _else == expr() ? "" : " " + _else.to_string();
 
     return s;

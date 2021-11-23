@@ -8,9 +8,9 @@
 #include "sexpr.h"
 #include "symbol.h"
 
-shared_ptr<environ> lisp::env(new environ());
+std::shared_ptr<environ> lisp::env(new environ());
 
-static expr make_expr(const mpc_ast_t *ast, shared_ptr<environ> &env);
+static expr make_expr(const mpc_ast_t *ast, std::shared_ptr<environ> &env);
 
 lisp::lisp() : _number(mpc_new("number")), _string(mpc_new("string")), _define(mpc_new("define")), _let(mpc_new("let")), _if_cond(mpc_new("if")), _lambda(mpc_new("lambda")), _symbol(mpc_new("symbol")), _sexpr(mpc_new("sexpr")), _expr(mpc_new("expr")), _lispy(mpc_new("lispy"))
 {
@@ -46,7 +46,7 @@ lisp::~lisp()
     mpc_cleanup(10, _number, _string, _define, _let, _if_cond, _lambda, _symbol, _sexpr, _expr, _lispy);
 }
 
-expr lisp::make_expr(const string &s) const
+expr lisp::make_expr(const std::string &s) const
 {
     expr e;
     mpc_result_t r;
@@ -65,7 +65,7 @@ expr lisp::make_expr(const string &s) const
 }
 
 template <typename T>
-static expr make_expr(const mpc_ast_t *a1, const mpc_ast_t *a2, shared_ptr<environ> &env)
+static expr make_expr(const mpc_ast_t *a1, const mpc_ast_t *a2, std::shared_ptr<environ> &env)
 {
     expr e1 = make_expr(a1, env);
     expr e2 = make_expr(a2, env);
@@ -74,7 +74,7 @@ static expr make_expr(const mpc_ast_t *a1, const mpc_ast_t *a2, shared_ptr<envir
 }
 
 template <typename T>
-static expr make_expr(const mpc_ast_t *a1, const mpc_ast_t *a2, const mpc_ast_t *a3, shared_ptr<environ> &env)
+static expr make_expr(const mpc_ast_t *a1, const mpc_ast_t *a2, const mpc_ast_t *a3, std::shared_ptr<environ> &env)
 {
     expr e1 = make_expr(a1, env);
     expr e2 = make_expr(a2, env);
@@ -93,7 +93,7 @@ static expr make_expr(const mpc_ast_t *a1, const mpc_ast_t *a2, const mpc_ast_t 
     return expr(T(e1, e2, e3));
 }
 
-static expr make_expr(const mpc_ast_t *ast, shared_ptr<environ> &env)
+static expr make_expr(const mpc_ast_t *ast, std::shared_ptr<environ> &env)
 {
     expr e;
 
@@ -120,7 +120,7 @@ static expr make_expr(const mpc_ast_t *ast, shared_ptr<environ> &env)
     } else if (strstr(ast->tag, "symbol") != NULL) {
         e = expr(symbol(ast->contents));
     } else if (strstr(ast->tag, "sexpr") != NULL) {
-        vector<expr> exprs;
+        std::vector<expr> exprs;
         for (int i = 1; i < ast->children_num - 1; ++i) {
             exprs.push_back(make_expr(ast->children[i], env));
         }

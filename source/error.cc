@@ -1,12 +1,12 @@
 #include "error.h"
 
-error::error(error_reason r, const string &d) : reason(r), detail(d)
+error::error(error_reason r, const std::string &d) : reason(r), detail(d)
 {
 }
 
-string error::to_string() const
+std::string error::to_string() const
 {
-    string s;
+    std::string s;
 
     switch(reason) {
     case DIVIDE_ZERO:

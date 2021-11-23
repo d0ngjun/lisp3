@@ -1,28 +1,25 @@
-#ifndef _SEXPR_H
-#define _SEXPR_H
+#pragma once
 
 #include "environ.h"
 
 class sexpr {
 public:
-    explicit sexpr(const vector<expr> &v);
+    explicit sexpr(const std::vector<expr> &v);
 
-    expr eval(const shared_ptr<environ> &env) const;
+    expr eval(const std::shared_ptr<environ> &env) const;
 
-    expr bind(const vector<expr> &args, shared_ptr<environ> &env) const;
+    expr bind(const std::vector<expr> &args, std::shared_ptr<environ> &env) const;
 
     expr car() const;
 
     expr cdr() const;
 
-    string to_string() const;
+    std::string to_string() const;
 
 private:
-    vector<expr> _exprs;
+    std::vector<expr> _exprs;
 
     friend bool operator==(const sexpr &s1, const sexpr &s2);
 };
 
 bool operator==(const sexpr &s1, const sexpr &s2);
-
-#endif

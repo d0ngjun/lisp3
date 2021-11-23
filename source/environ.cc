@@ -2,15 +2,13 @@
 
 #include "environ.h"
 
-using std::make_pair;
-
-environ::environ(const shared_ptr<environ> &p) : _parent(p)
+environ::environ(const std::shared_ptr<environ> &p) : _parent(p)
 {
 }
 
-expr environ::put(const string &key, const expr &value)
+expr environ::put(const std::string &key, const expr &value)
 {
-    auto i = find_if(_store.begin(), _store.end(), [&key](pair<string, expr> v) {
+    auto i = find_if(_store.begin(), _store.end(), [&key](std::pair<std::string, expr> v) {
         return v.first == key;
     });
     if (i == _store.end()) {
@@ -22,10 +20,10 @@ expr environ::put(const string &key, const expr &value)
     return expr();
 }
 
-expr environ::get(const string &key) const
+expr environ::get(const std::string &key) const
 {
     expr e = error(BAD_SYMBOL, key + " is not defined");
-    auto i = find_if(_store.begin(), _store.end(), [&key](pair<string, expr> v) {
+    auto i = find_if(_store.begin(), _store.end(), [&key](std::pair<std::string, expr> v) {
         return v.first == key;
     });
     if (i != _store.end()) {
@@ -37,9 +35,9 @@ expr environ::get(const string &key) const
     return e;
 }
 
-string environ::to_string() const
+std::string environ::to_string() const
 {
-    string s;
+    std::string s;
 
     for (auto e : _store) {
         s += e.first + " = " + e.second.to_string() + "\n";

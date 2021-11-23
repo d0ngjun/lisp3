@@ -10,18 +10,15 @@
 #include "sexpr.h"
 #include "symbol.h"
 
-using std::ostringstream;
-using std::swap;
-
 expr::expr() : _type(EMPTY)
 {
 }
 
-expr::expr(const arith *a) : _type(ARITH), _arith(a)
+expr::expr(arith *a) : _type(ARITH), _arith(a)
 {
 }
 
-expr::expr(const logic *l) : _type(LOGIC), _logic(l)
+expr::expr(logic *l) : _type(LOGIC), _logic(l)
 {
 }
 
@@ -33,7 +30,7 @@ expr::expr(const long n) : _type(NUMBER), _number(n)
 {
 }
 
-expr::expr(const char *s) : _type(STRING), _string(new string(s))
+expr::expr(const char *s) : _type(STRING), _string(new std::string(s))
 {
 }
 
@@ -81,7 +78,7 @@ expr::expr(const expr &e) : _type(e._type)
         _number = e._number;
         break;
     case STRING:
-        _string = new string(*e._string);
+        _string = new std::string(*e._string);
         break;
     case DEFINE:
         _define = new define(*e._define);
@@ -146,15 +143,15 @@ expr &expr::operator=(const expr &e)
     if (this != &e) {
         expr f(e);
 
-        swap(_type, f._type);
+        std::swap(_type, f._type);
         // _number is long enough.
-        swap(_number, f._number);
+        std::swap(_number, f._number);
     }
 
     return *this;
 }
 
-expr expr::eval(const shared_ptr<environ> &env) const
+expr expr::eval(const std::shared_ptr<environ> &env) const
 {
     expr e;
 
@@ -183,7 +180,7 @@ expr expr::eval(const shared_ptr<environ> &env) const
     return e;
 }
 
-expr expr::call(const vector<expr> &arguments) const
+expr expr::call(const std::vector<expr> &arguments) const
 {
     expr e;
 
@@ -205,7 +202,7 @@ expr expr::call(const vector<expr> &arguments) const
     return e;
 }
 
-expr expr::bind(const vector<expr> &args, shared_ptr<environ> &env) const
+expr expr::bind(const std::vector<expr> &args, std::shared_ptr<environ> &env) const
 {
     return _type == SEXPR ? _sexpr->bind(args, env) : error(BAD_TYPE, to_string());
 }
@@ -221,10 +218,10 @@ bool expr::to_boolean() const
     return _type == BOOLEAN && _boolean;
 }
 
-string expr::to_string() const
+std::string expr::to_string() const
 {
-    string s;
-    ostringstream ss;
+    std::string s;
+    std::ostringstream ss;
 
     switch (_type) {
     case ARITH:

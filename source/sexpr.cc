@@ -1,11 +1,11 @@
 #include "error.h"
 #include "sexpr.h"
 
-sexpr::sexpr(const vector<expr> &v) : _exprs(v)
+sexpr::sexpr(const std::vector<expr> &v) : _exprs(v)
 {
 }
 
-expr sexpr::eval(const shared_ptr<environ> &env) const
+expr sexpr::eval(const std::shared_ptr<environ> &env) const
 {
     if (_exprs.empty()) {
         return expr();
@@ -13,7 +13,7 @@ expr sexpr::eval(const shared_ptr<environ> &env) const
 
     auto first = _exprs.begin();
     auto end = _exprs.end();
-    vector<expr> args;
+    std::vector<expr> args;
     expr f = first->eval(env);
     for (++first; first != end; ++first) {
         args.push_back(first->eval(env));
@@ -27,7 +27,7 @@ expr sexpr::eval(const shared_ptr<environ> &env) const
     }
 }
 
-expr sexpr::bind(const vector<expr> &args, shared_ptr<environ> &env) const
+expr sexpr::bind(const std::vector<expr> &args, std::shared_ptr<environ> &env) const
 {
     expr e;
 
@@ -53,12 +53,12 @@ expr sexpr::car() const
 
 expr sexpr::cdr() const
 {
-    return expr(sexpr(vector<expr>(_exprs.begin() + 1, _exprs.end())));
+    return expr(sexpr(std::vector<expr>(_exprs.begin() + 1, _exprs.end())));
 }
 
-string sexpr::to_string() const
+std::string sexpr::to_string() const
 {
-    string s = "(";
+    std::string s = "(";
 
     if (!_exprs.empty()) {
         auto i = _exprs.begin();

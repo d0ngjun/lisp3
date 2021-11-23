@@ -1,5 +1,4 @@
-#ifndef _EXPR_H
-#define _EXPR_H
+#pragma once
 
 #include <memory>
 #include <string>
@@ -7,10 +6,6 @@
 
 #include "error.h"
 #include "mpc.h"
-
-using std::shared_ptr;
-using std::string;
-using std::vector;
 
 class if_cond;
 class define;
@@ -39,13 +34,13 @@ enum {
 
 class expr {
 public:
-    typedef expr arith(const vector<expr> &v);
-    typedef bool logic(const vector<expr> &v);
+    typedef expr arith(const std::vector<expr> &v);
+    typedef bool logic(const std::vector<expr> &v);
 
     // empty
     expr();
-    explicit expr(const arith *a);
-    explicit expr(const logic *l);
+    explicit expr(arith *a);
+    explicit expr(logic *l);
     explicit expr(const bool b);
     explicit expr(const long n);
     explicit expr(const char *s);
@@ -64,17 +59,17 @@ public:
 
     expr &operator=(const expr &e);
 
-    expr eval(const shared_ptr<environ> &env) const;
+    expr eval(const std::shared_ptr<environ> &env) const;
 
-    expr call(const vector<expr> &args) const;
+    expr call(const std::vector<expr> &args) const;
 
-    expr bind(const vector<expr> &args, shared_ptr<environ> &env) const;
+    expr bind(const std::vector<expr> &args, std::shared_ptr<environ> &env) const;
 
     bool failed() const;
 
     bool to_boolean() const;
 
-    string to_string() const;
+    std::string to_string() const;
 
 private:
     int _type;
@@ -83,7 +78,7 @@ private:
         logic *_logic;
         bool _boolean;
         long _number;
-        string *_string;
+        std::string *_string;
         define *_define;
         let *_let;
         if_cond *_if_cond;
@@ -119,5 +114,3 @@ bool operator>(const expr &e1, const expr &e2);
 bool operator&&(const expr &e1, const expr &e2);
 bool operator||(const expr &e1, const expr &e2);
 bool operator!(const expr &e);
-
-#endif

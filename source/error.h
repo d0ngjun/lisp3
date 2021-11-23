@@ -1,9 +1,6 @@
-#ifndef _ERROR_H
-#define _ERROR_H
+#pragma once
 
 #include <string>
-
-using std::string;
 
 enum error_reason {
     DIVIDE_ZERO,
@@ -18,13 +15,11 @@ enum error_reason {
 
 class error {
 public:
-    explicit error(error_reason r, const string &d = "");
+    explicit error(error_reason r, const std::string &d = "");
 
-    string to_string() const;
+    std::string to_string() const;
 
 private:
     error_reason reason;
-    string detail;
+    std::string detail;
 };
-
-#endif

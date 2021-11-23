@@ -1,4 +1,6 @@
 lisp3
 core
 object
+build
 .*.swp
+.vscode

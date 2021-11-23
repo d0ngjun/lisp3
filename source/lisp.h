@@ -1,5 +1,4 @@
-#ifndef _LISP_H
-#define _LISP_H
+#pragma once
 
 #include "environ.h"
 
@@ -8,10 +7,10 @@ public:
     lisp();
     ~lisp();
 
-    expr make_expr(const string &s) const;
+    expr make_expr(const std::string &s) const;
 
     // global environment.
-    static shared_ptr<environ> env;
+    static std::shared_ptr<environ> env;
 
 private:
     mpc_parser_t *_number;
@@ -25,5 +24,3 @@ private:
     mpc_parser_t *_expr;
     mpc_parser_t *_lispy;
 };
-
-#endif

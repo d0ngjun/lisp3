@@ -1,28 +1,23 @@
-#ifndef _ENVIRON_H
-#define _ENVIRON_H
+#pragma once
 
 #include <utility>
 
 #include "expr.h"
 
-using std::pair;
-
 class environ {
 public:
-    explicit environ(const shared_ptr<environ> &p = NULL);
+    explicit environ(const std::shared_ptr<environ> &p = nullptr);
 
-    expr put(const string &key, const expr &value);
-    expr get(const string &key) const;
+    expr put(const std::string &key, const expr &value);
+    expr get(const std::string &key) const;
 
-    string to_string() const;
+    std::string to_string() const;
 
 private:
-    vector<pair<string, expr>> _store;
-    shared_ptr<environ> _parent;
+    std::vector<std::pair<std::string, expr>> _store;
+    std::shared_ptr<environ> _parent;
 
     friend bool operator==(const environ &e1, const environ &e2);
 };
 
 bool operator==(const environ &e1, const environ &e2);
-
-#endif

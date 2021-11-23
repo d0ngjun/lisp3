@@ -1,21 +1,18 @@
-#ifndef _LET_H
-#define _LET_H
+#pragma once
 
 #include "environ.h"
 
 class let {
 public:
-    explicit let(const expr &n, const expr &v, const expr &e, const shared_ptr<environ> &env);
+    explicit let(const expr &n, const expr &v, const expr &e, const std::shared_ptr<environ> &env);
 
     expr eval() const;
 
-    string to_string() const;
+    std::string to_string() const;
 
 private:
-    string _name;
+    std::string _name;
     expr _value;
     expr _expr;
-    shared_ptr<environ> _env;
+    std::shared_ptr<environ> _env;
 };
-
-#endif

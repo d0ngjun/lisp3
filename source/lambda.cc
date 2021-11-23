@@ -1,20 +1,20 @@
 #include "error.h"
 #include "lambda.h"
 
-lambda::lambda(const expr &p, const expr &b, const shared_ptr<environ> &e) : _parameters(p), _body(b), _env(e)
+lambda::lambda(const expr &p, const expr &b, const std::shared_ptr<environ> &e) : _parameters(p), _body(b), _env(e)
 {
 }
 
-expr lambda::call(const vector<expr> &args) const
+expr lambda::call(const std::vector<expr> &args) const
 {
     // generate a new environment for eval.
-    shared_ptr<environ> local(new environ(_env));
+    std::shared_ptr<environ> local(new environ(_env));
     expr e = _parameters.bind(args, local);
 
     return e.failed() ? e : _body.eval(local);
 }
 
-string lambda::to_string() const
+std::string lambda::to_string() const
 {
     return "lambda " + _parameters.to_string() + " " + _body.to_string();
 }

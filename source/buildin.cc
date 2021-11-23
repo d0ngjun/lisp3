@@ -3,63 +3,63 @@
 typedef expr arith_func(const expr &, const expr &);
 typedef bool logic_func(const expr &, const expr &);
 
-static expr buildin_arith(const vector<expr> &v, const arith_func *f);
-static bool buildin_logic(const vector<expr> &v, const logic_func *f, bool stop);
+static expr buildin_arith(const std::vector<expr> &v, arith_func *f);
+static bool buildin_logic(const std::vector<expr> &v, logic_func *f, bool stop);
 
-expr buildin_plus(const vector<expr> &v)
+expr buildin_plus(const std::vector<expr> &v)
 {
     return buildin_arith(v, operator+);
 }
 
-expr buildin_minus(const vector<expr> &v)
+expr buildin_minus(const std::vector<expr> &v)
 {
     return buildin_arith(v, operator-);
 }
 
-expr buildin_multiplies(const vector<expr> &v)
+expr buildin_multiplies(const std::vector<expr> &v)
 {
     return buildin_arith(v, operator*);
 }
 
-expr buildin_divides(const vector<expr> &v)
+expr buildin_divides(const std::vector<expr> &v)
 {
     return buildin_arith(v, operator/);
 }
 
-bool buildin_equal(const vector<expr> &v)
+bool buildin_equal(const std::vector<expr> &v)
 {
     return buildin_logic(v, operator==, false);
 }
 
-bool buildin_less(const vector<expr> &v)
+bool buildin_less(const std::vector<expr> &v)
 {
     return buildin_logic(v, operator<, false);
 }
 
-bool buildin_larger(const vector<expr> &v)
+bool buildin_larger(const std::vector<expr> &v)
 {
     return buildin_logic(v, operator>, false);
 }
 
-bool buildin_and(const vector<expr> &v)
+bool buildin_and(const std::vector<expr> &v)
 {
     return buildin_logic(v, operator&&, false);
 }
 
-bool buildin_or(const vector<expr> &v)
+bool buildin_or(const std::vector<expr> &v)
 {
     return buildin_logic(v, operator||, true);
 }
 
-bool buildin_not(const vector<expr> &v)
+bool buildin_not(const std::vector<expr> &v)
 {
     // assert v.size() == 1
     return !v.front();
 }
 
-string buildin_to_string(const expr::arith *a)
+std::string buildin_to_string(expr::arith *a)
 {
-    string s;
+    std::string s;
 
     if (a == buildin_plus) {
         s = "buildin_plus";
@@ -76,9 +76,9 @@ string buildin_to_string(const expr::arith *a)
     return s;
 }
 
-string buildin_to_string(const expr::logic *l)
+std::string buildin_to_string(expr::logic *l)
 {
-    string s;
+    std::string s;
 
     if (l == buildin_equal) {
         s = "buildin_equal";
@@ -99,7 +99,7 @@ string buildin_to_string(const expr::logic *l)
     return s;
 }
 
-static expr buildin_arith(const vector<expr> &v, const arith_func *f)
+static expr buildin_arith(const std::vector<expr> &v, arith_func *f)
 {
     // FIXME: need to indicate error.
     if (v.size() == 0) {
@@ -118,7 +118,7 @@ static expr buildin_arith(const vector<expr> &v, const arith_func *f)
     return e;
 }
 
-static bool buildin_logic(const vector<expr> &v, const logic_func *f, bool stop)
+static bool buildin_logic(const std::vector<expr> &v, logic_func *f, bool stop)
 {
     // FIXME: need to indicate error.
     if (v.size() == 0) {
